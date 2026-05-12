@@ -622,17 +622,19 @@
       position: absolute;
       top: 18px; right: 20px;
       background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.1);
-      color: var(--text-muted);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.85);
       width: 32px; height: 32px;
       border-radius: 99px;
       cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       font-family: inherit;
       transition: all 0.2s;
-      font-size: 0;
+      font-size: 16px;
+      line-height: 1;
+      padding: 0;
     }
-    .modal-close:hover { background: rgba(255,255,255,0.12); color: var(--text); }
+    .modal-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
 
     .modal h2 {
       font-size: 1.45rem;
@@ -845,9 +847,7 @@
   <!-- Modal -->
   <div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
     <div class="modal">
-      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-      </button>
+      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">&#x2715;</button>
 
       <h2>Vision AI</h2>
       <p class="modal-lead">Sistema local de reconocimiento e interpretación de imágenes mediante inteligencia artificial. Analiza cualquier imagen y devuelve una descripción en lenguaje natural junto con las categorías más probables, todo procesado en el dispositivo sin enviar datos a servicios externos.</p>
