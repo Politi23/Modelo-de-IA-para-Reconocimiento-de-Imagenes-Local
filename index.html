@@ -867,9 +867,7 @@
               <span style="margin-left:auto;font-size:0.72rem;background:rgba(52,211,153,0.12);color:var(--success);border:1px solid rgba(52,211,153,0.2);padding:2px 8px;border-radius:99px;font-weight:600">Clasificación</span>
             </div>
             <div class="modal-step-text">
-              Desarrollado por <strong>Microsoft Research</strong>, Swin Transformer es una red neuronal de visión basada en la arquitectura <em>Vision Transformer (ViT)</em>. A diferencia de las CNN clásicas, divide la imagen en pequeños parches y aplica mecanismos de <strong>atención</strong> (Attention) para entender las relaciones entre distintas zonas de la imagen, capturando tanto detalles finos como contexto global.<br><br>
-              La variante <strong>Large con resolución 384×384 píxeles</strong> es una de las más precisas disponibles públicamente, alcanzando un <strong>87% de precisión top-1</strong> sobre el conjunto ImageNet (1.28 millones de imágenes de entrenamiento, 1000 categorías). Fue entrenado durante semanas en cientos de GPUs por Microsoft.<br><br>
-              Para maximizar la precisión, el sistema aplica <strong>Test-Time Augmentation (TTA)</strong>: la misma imagen se analiza 5 veces con variaciones (espejo horizontal, espejo vertical, rotación 90°, rotación -90°) y los resultados se promedian, reduciendo el error de predicción.
+              Red neuronal de visión de <strong>Microsoft Research</strong> que divide la imagen en parches y usa <strong>mecanismos de atención</strong> para entender relaciones entre zonas. Alcanza <strong>87% de precisión top-1</strong> en ImageNet (1000 categorías). Aplica <strong>TTA</strong>: analiza la imagen 5 veces con variaciones y promedia los resultados para mayor precisión.
             </div>
           </div>
 
@@ -880,9 +878,7 @@
               <span style="margin-left:auto;font-size:0.72rem;background:rgba(129,140,248,0.12);color:var(--accent);border:1px solid rgba(129,140,248,0.2);padding:2px 8px;border-radius:99px;font-weight:600">Descripción</span>
             </div>
             <div class="modal-step-text">
-              Desarrollado por <strong>Salesforce Research</strong>, BLIP es un modelo multimodal que combina visión y lenguaje. Usa un <strong>encoder visual</strong> (ViT) para interpretar la imagen y un <strong>decoder de texto</strong> (Transformer) para generar oraciones en lenguaje natural que describen lo que ve.<br><br>
-              Su entrenamiento utilizó técnicas de <em>bootstrapping</em>: generó sus propios pares imagen-texto sintéticos para mejorar iterativamente su comprensión, logrando descripciones más naturales y detalladas que modelos anteriores.<br><br>
-              La salida en inglés se traduce automáticamente al español mediante la librería <strong>deep-translator</strong> (Google Translate API), haciendo el resultado accesible sin requerir conocimiento del idioma original.
+              Modelo multimodal de <strong>Salesforce Research</strong> que combina un encoder visual (ViT) y un decoder de texto (Transformer) para generar descripciones en lenguaje natural. La salida en inglés se traduce automáticamente al español con <strong>deep-translator</strong>.
             </div>
           </div>
 
@@ -902,7 +898,7 @@
               <div class="modal-step-num" style="background:rgba(251,191,36,0.15);color:var(--warn)">Py</div>
               <span style="font-size:0.9rem;font-weight:700;color:var(--text)">Python 3.11 — Lenguaje principal</span>
             </div>
-            <div class="modal-step-text">Lenguaje de programación elegido por su ecosistema dominante en inteligencia artificial. Toda la lógica del servidor, carga de modelos e inferencia está escrita en Python.</div>
+            <div class="modal-step-text">Elegido por su ecosistema dominante en IA. Maneja la lógica del servidor, carga de modelos e inferencia.</div>
           </div>
 
           <div class="modal-step" style="flex-direction:column;gap:6px">
@@ -910,7 +906,7 @@
               <div class="modal-step-num" style="background:rgba(52,211,153,0.15);color:var(--success)">Fl</div>
               <span style="font-size:0.9rem;font-weight:700;color:var(--text)">Flask — Servidor web</span>
             </div>
-            <div class="modal-step-text">Microframework web de Python que expone una <strong>API REST</strong> con dos endpoints: <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">/info</code> (estado del modelo) y <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">/predict</code> (análisis de imagen). Los modelos se cargan en un hilo separado al arrancar, permitiendo que el servidor responda inmediatamente mientras la IA carga en segundo plano.</div>
+            <div class="modal-step-text">Expone una <strong>API REST</strong> con los endpoints <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">/info</code> y <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">/predict</code>. Los modelos cargan en un hilo separado para que el servidor esté disponible de inmediato.</div>
           </div>
 
           <div class="modal-step" style="flex-direction:column;gap:6px">
@@ -918,7 +914,7 @@
               <div class="modal-step-num" style="background:rgba(129,140,248,0.15);color:var(--accent)">PT</div>
               <span style="font-size:0.9rem;font-weight:700;color:var(--text)">PyTorch 2.11 + CUDA 12.8 — Motor de IA</span>
             </div>
-            <div class="modal-step-text">Framework de aprendizaje profundo de Meta. Ejecuta los cálculos de los modelos en la <strong>GPU NVIDIA</strong> (CUDA) en lugar de la CPU, logrando velocidades hasta 20× más rápidas. La versión cu128 añade soporte para las GPU <strong>RTX 5000 (arquitectura Blackwell)</strong>, que requieren CUDA 12.8.</div>
+            <div class="modal-step-text">Ejecuta los modelos en la <strong>GPU NVIDIA</strong>, logrando hasta 20× más velocidad que CPU. CUDA 12.8 añade soporte para las <strong>RTX 5000 (Blackwell)</strong>.</div>
           </div>
 
           <div class="modal-step" style="flex-direction:column;gap:6px">
@@ -926,7 +922,7 @@
               <div class="modal-step-num" style="background:rgba(192,132,252,0.15);color:var(--accent2)">HF</div>
               <span style="font-size:0.9rem;font-weight:700;color:var(--text)">HuggingFace Transformers — Librería de modelos</span>
             </div>
-            <div class="modal-step-text">Plataforma open-source con más de 500.000 modelos pre-entrenados. Permite descargar y usar <strong>Swin-Large</strong> y <strong>BLIP-large</strong> con pocas líneas de código. Los modelos se almacenan en caché local tras la primera descarga y no requieren conexión a internet para funcionar.</div>
+            <div class="modal-step-text">Plataforma open-source que provee <strong>Swin-Large</strong> y <strong>BLIP-large</strong> listos para usar. Los modelos se cachean localmente tras la primera descarga.</div>
           </div>
 
           <div class="modal-step" style="flex-direction:column;gap:6px">
@@ -934,7 +930,7 @@
               <div class="modal-step-num" style="background:rgba(255,255,255,0.08);color:var(--text-muted)">UI</div>
               <span style="font-size:0.9rem;font-weight:700;color:var(--text)">HTML5 · CSS3 · JavaScript — Interfaz</span>
             </div>
-            <div class="modal-step-text">Frontend construido sin frameworks externos (sin React, Vue ni similares), usando únicamente tecnologías web estándar. El diseño implementa <strong>Glassmorphism</strong> (vidrio líquido): fondos con <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">backdrop-filter: blur</code>, bordes translúcidos y blobs animados como fondo. La imagen se transmite al servidor codificada en <strong>Base64</strong> dentro de un JSON.</div>
+            <div class="modal-step-text">Frontend sin frameworks externos. Diseño <strong>Glassmorphism</strong> con <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">backdrop-filter: blur</code> y blobs animados. La imagen viaja al servidor codificada en <strong>Base64</strong>.</div>
           </div>
 
         </div>
