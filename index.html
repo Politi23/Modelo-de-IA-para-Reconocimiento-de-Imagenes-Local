@@ -544,7 +544,225 @@
       text-align: center;
       position: relative;
       z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      justify-content: center;
     }
+
+    .about-btn {
+      flex: none;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.5);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      padding: 5px 14px;
+      border-radius: 99px;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .about-btn:hover {
+      background: rgba(129,140,248,0.15);
+      border-color: rgba(129,140,248,0.3);
+      color: var(--accent);
+    }
+
+    /* ── Modal overlay ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: rgba(14,14,28,0.92);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 36px 40px;
+      width: 100%;
+      max-width: 660px;
+      max-height: 88vh;
+      overflow-y: auto;
+      position: relative;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+      border-radius: 24px 24px 0 0;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px; right: 20px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-muted);
+      width: 32px; height: 32px;
+      border-radius: 99px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-family: inherit;
+      transition: all 0.2s;
+      font-size: 0;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.12); color: var(--text); }
+
+    .modal h2 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #fff 20%, #c084fc 60%, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 6px;
+    }
+
+    .modal-lead {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .modal-section {
+      margin-bottom: 24px;
+    }
+
+    .modal-section-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(129,140,248,0.2);
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .modal-chip {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .modal-chip-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 4px;
+    }
+
+    .modal-chip-value {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .modal-chip-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .modal-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .modal-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+
+    .modal-step-num {
+      width: 22px; height: 22px;
+      border-radius: 7px;
+      background: rgba(129,140,248,0.2);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .modal-step-text {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+
+    .modal-step-text strong { color: var(--text); font-weight: 600; }
+
+    .modal-team {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .modal-member {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 10px 14px;
+    }
+
+    .modal-member-name { font-size: 0.88rem; font-weight: 600; }
+    .modal-member-id   { font-size: 0.78rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
   </style>
 </head>
 <body>
@@ -619,7 +837,143 @@
     </div>
   </div>
 
-  <footer>Equipo 4 &nbsp;·&nbsp; 2026</footer>
+  <footer>
+    <span>Equipo 4 &nbsp;·&nbsp; 2026</span>
+    <button class="about-btn" onclick="document.getElementById('modal').classList.add('open')">Acerca de</button>
+  </footer>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
+    <div class="modal">
+      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+
+      <h2>Vision AI</h2>
+      <p class="modal-lead">Sistema local de reconocimiento e interpretación de imágenes mediante inteligencia artificial. Analiza cualquier imagen y devuelve una descripción en lenguaje natural junto con las categorías más probables, todo procesado en el dispositivo sin enviar datos a servicios externos.</p>
+
+      <!-- Modelos -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+          Modelos de IA
+        </div>
+        <div class="modal-grid">
+          <div class="modal-chip">
+            <div class="modal-chip-label">Clasificación</div>
+            <div class="modal-chip-value">Swin-Large-384</div>
+            <div class="modal-chip-sub">Microsoft · 87% top-1 ImageNet · 1000 categorías</div>
+          </div>
+          <div class="modal-chip">
+            <div class="modal-chip-label">Descripción</div>
+            <div class="modal-chip-value">BLIP-large</div>
+            <div class="modal-chip-sub">Salesforce · Captioning con lenguaje natural</div>
+          </div>
+          <div class="modal-chip">
+            <div class="modal-chip-label">Precisión extra</div>
+            <div class="modal-chip-value">TTA × 5</div>
+            <div class="modal-chip-sub">Test-Time Augmentation — promedio de 5 pasadas</div>
+          </div>
+          <div class="modal-chip">
+            <div class="modal-chip-label">Aceleración</div>
+            <div class="modal-chip-value">CUDA / GPU</div>
+            <div class="modal-chip-sub">PyTorch cu128 · Compatible RTX 5000+</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stack -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          Stack tecnológico
+        </div>
+        <div class="modal-grid">
+          <div class="modal-chip">
+            <div class="modal-chip-label">Backend</div>
+            <div class="modal-chip-value">Python · Flask</div>
+            <div class="modal-chip-sub">API REST local en puerto 5000</div>
+          </div>
+          <div class="modal-chip">
+            <div class="modal-chip-label">IA / ML</div>
+            <div class="modal-chip-value">PyTorch · HuggingFace</div>
+            <div class="modal-chip-sub">Transformers, torchvision</div>
+          </div>
+          <div class="modal-chip">
+            <div class="modal-chip-label">Frontend</div>
+            <div class="modal-chip-value">HTML · CSS · JS</div>
+            <div class="modal-chip-sub">Glassmorphism · sin frameworks</div>
+          </div>
+          <div class="modal-chip">
+            <div class="modal-chip-label">Traducción</div>
+            <div class="modal-chip-value">deep-translator</div>
+            <div class="modal-chip-sub">Labels y descripciones al español</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flujo -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          Flujo de análisis
+        </div>
+        <div class="modal-flow">
+          <div class="modal-step">
+            <div class="modal-step-num">1</div>
+            <div class="modal-step-text">El usuario arrastra o selecciona una imagen. El frontend la convierte a <strong>Base64</strong> y la envía al servidor local vía POST.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num">2</div>
+            <div class="modal-step-text"><strong>Swin-Large-384</strong> clasifica la imagen 5 veces con aumentos distintos (TTA) y promedia las probabilidades para mayor precisión.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num">3</div>
+            <div class="modal-step-text"><strong>BLIP-large</strong> genera una descripción en lenguaje natural en inglés, que luego se traduce al español automáticamente.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num">4</div>
+            <div class="modal-step-text">El frontend muestra la descripción y el top-5 de categorías con barras de confianza animadas codificadas por color.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metodología -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Metodología de desarrollo
+        </div>
+        <div class="modal-step">
+          <div class="modal-step-num" style="background:rgba(52,211,153,0.15);color:var(--success)">K</div>
+          <div class="modal-step-text"><strong>Kanban (Ágil)</strong> — Tablero visual con columnas "Por hacer", "En proceso" y "Hecho". Permite adaptarse a cambios de prioridad en tiempo real, limita el trabajo en curso (WIP) y fomenta entregas continuas sin sobrecargar al equipo.</div>
+        </div>
+      </div>
+
+      <!-- Equipo -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Equipo 4
+        </div>
+        <div class="modal-team">
+          <div class="modal-member">
+            <span class="modal-member-name">Jesús Silva</span>
+            <span class="modal-member-id">V-30.240.760</span>
+          </div>
+          <div class="modal-member">
+            <span class="modal-member-name">Manuel Hernández</span>
+            <span class="modal-member-id">V-29.915.089</span>
+          </div>
+          <div class="modal-member">
+            <span class="modal-member-name">Victoria González</span>
+            <span class="modal-member-id">V-31.022.189</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <script>
     const dropZone   = document.getElementById('drop-zone');
