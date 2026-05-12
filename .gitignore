@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+labels_es.json
+*.safetensors
+*.bin
+.env
