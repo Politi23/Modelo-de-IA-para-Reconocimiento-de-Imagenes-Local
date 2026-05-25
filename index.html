@@ -628,49 +628,11 @@
       flex-shrink: 0;
     }
 
-    /* ── Modos de daltonismo (sobreescriben variables) ── */
-
-    /* Deuteranopia: no distingue rojo/verde → verde→azul */
-    body.dalton-deuteranopia {
-      --success: #3b82f6;
-      --warn: #f97316;
-    }
-    body.dalton-deuteranopia .bar-fill.high {
-      background: linear-gradient(90deg, #1d4ed8, #3b82f6);
-    }
-    body.dalton-deuteranopia .bar-fill.low {
-      background: repeating-linear-gradient(45deg,#c2410c 0px,#c2410c 3px,#f97316 3px,#f97316 6px);
-    }
-
-    /* Protanopia: no distingue rojo → verde→cian */
-    body.dalton-protanopia {
-      --success: #06b6d4;
-      --warn: #f59e0b;
-    }
-    body.dalton-protanopia .bar-fill.high {
-      background: linear-gradient(90deg, #0e7490, #06b6d4);
-    }
-    body.dalton-protanopia .bar-fill.low {
-      background: repeating-linear-gradient(45deg,#b45309 0px,#b45309 3px,#f59e0b 3px,#f59e0b 6px);
-    }
-
-    /* Tritanopia: no distingue azul/amarillo → púrpura→rojo, amarillo→rosa */
-    body.dalton-tritanopia {
-      --accent: #ef4444;
-      --accent2: #f87171;
-      --warn: #e879f9;
-    }
-    body.dalton-tritanopia .bar-fill.medium {
-      background: repeating-linear-gradient(90deg,#b91c1c 0px,#b91c1c 5px,#ef4444 5px,#ef4444 9px);
-    }
-    body.dalton-tritanopia .bar-fill.low {
-      background: repeating-linear-gradient(45deg,#a21caf 0px,#a21caf 3px,#e879f9 3px,#e879f9 6px);
-    }
-
-    /* Acromático: escala de grises + alto contraste */
-    body.dalton-acromatico {
-      filter: grayscale(100%) contrast(1.3);
-    }
+    /* ── Modos de daltonismo — filtro global sobre todo el body ── */
+    body.dalton-deuteranopia { filter: url('#cvd-deuteranopia'); }
+    body.dalton-protanopia   { filter: url('#cvd-protanopia'); }
+    body.dalton-tritanopia   { filter: url('#cvd-tritanopia'); }
+    body.dalton-acromatico   { filter: grayscale(100%) contrast(1.35); }
 
     /* ── Modal overlay ── */
     .modal-overlay {
@@ -930,6 +892,33 @@
   </style>
 </head>
 <body>
+
+  <!-- SVG filters para simulación de daltonismo (Brettel et al.) -->
+  <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute">
+    <defs>
+      <filter id="cvd-deuteranopia" color-interpolation-filters="linearRGB">
+        <feColorMatrix type="matrix" values="
+          0.367  0.861 -0.228  0  0
+          0.280  0.673  0.047  0  0
+         -0.012  0.043  0.969  0  0
+          0      0      0      1  0"/>
+      </filter>
+      <filter id="cvd-protanopia" color-interpolation-filters="linearRGB">
+        <feColorMatrix type="matrix" values="
+          0.152  1.053 -0.205  0  0
+          0.115  0.786  0.099  0  0
+         -0.004 -0.048  1.052  0  0
+          0      0      0      1  0"/>
+      </filter>
+      <filter id="cvd-tritanopia" color-interpolation-filters="linearRGB">
+        <feColorMatrix type="matrix" values="
+          1.256 -0.077 -0.179  0  0
+         -0.078  0.931  0.148  0  0
+          0.005  0.691  0.304  0  0
+          0      0      0      1  0"/>
+      </filter>
+    </defs>
+  </svg>
 
   <!-- Animated background -->
   <div class="bg-canvas" aria-hidden="true">
