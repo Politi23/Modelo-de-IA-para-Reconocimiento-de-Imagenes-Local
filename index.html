@@ -911,10 +911,6 @@
 
   <footer>
     <span>Equipo 4 &nbsp;·&nbsp; 2026</span>
-    <button class="speech-btn" id="prev-btn" aria-label="Ir a la sección anterior">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-      Anterior
-    </button>
     <button class="speech-btn" id="speech-btn" aria-pressed="false" title="Activar/desactivar voz">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -1176,7 +1172,6 @@
     const aboutBtn    = document.getElementById('about-btn');
     const modalClose  = document.getElementById('modal-close');
     const speechBtn   = document.getElementById('speech-btn');
-    const prevBtn     = document.getElementById('prev-btn');
 
     // ── Web Speech API ───────────────────────────────────────────────
     let speechOn = true;
@@ -1192,14 +1187,21 @@
       }, 50);
     }
 
-    // ── Botón Anterior ───────────────────────────────────────────────
-    prevBtn.addEventListener('click', () => {
+    // ── Flechas ← → para navegar secciones ──────────────────────────
+    const NAV_SEL = 'a[href],button:not([disabled]),input:not([tabindex="-1"]),select,textarea,[tabindex="0"]';
+    document.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+      e.preventDefault();
       const root = modal.classList.contains('open') ? modal : document;
-      const all = [...root.querySelectorAll(
-        'a[href],button:not([disabled]),input:not([tabindex="-1"]),select,textarea,[tabindex="0"]'
-      )];
+      const all = [...root.querySelectorAll(NAV_SEL)];
       const idx = all.indexOf(document.activeElement);
-      const target = idx > 0 ? all[idx - 1] : all[all.length - 1];
+      let target;
+      if (e.key === 'ArrowLeft') {
+        target = idx > 0 ? all[idx - 1] : all[all.length - 1];
+      } else {
+        target = idx < all.length - 1 ? all[idx + 1] : all[0];
+      }
       target.focus();
     });
 
@@ -1216,10 +1218,10 @@
     setTimeout(() => {
       speak(
         'Bienvenido a Vision AI, sistema de reconocimiento de imágenes con inteligencia artificial. ' +
-        'Usa la tecla Tab para avanzar entre los elementos de la página, ' +
-        'o el botón Anterior en la parte inferior para retroceder una sección. ' +
+        'Usa Tab o flecha derecha para avanzar entre elementos, ' +
+        'y flecha izquierda para retroceder. ' +
         'Presiona Enter o Espacio para activar el elemento seleccionado. ' +
-        'En el modal Acerca de, Tab navega entre secciones y Escape lo cierra. ' +
+        'En el modal Acerca de, las flechas navegan entre secciones y Escape lo cierra. ' +
         'La voz se puede desactivar con el botón Voz en la parte inferior.'
       );
     }, 500);
