@@ -1176,7 +1176,7 @@
     const speechBtn   = document.getElementById('speech-btn');
 
     // ── Web Speech API ───────────────────────────────────────────────
-    let speechOn = false;
+    let speechOn = true;
     let synth = window.speechSynthesis;
 
     function speak(text) {
@@ -1189,15 +1189,15 @@
       synth.speak(u);
     }
 
+    // Voz activa por defecto
+    speechBtn.classList.add('active');
+    speechBtn.setAttribute('aria-pressed', 'true');
+
     speechBtn.addEventListener('click', () => {
       speechOn = !speechOn;
       speechBtn.classList.toggle('active', speechOn);
       speechBtn.setAttribute('aria-pressed', speechOn);
-      if (speechOn) {
-        speak('Voz activada. Vision AI, sistema de reconocimiento de imágenes.');
-      } else {
-        synth.cancel();
-      }
+      speak(speechOn ? 'Voz activada.' : 'Voz desactivada.');
     });
 
     // Hablar al enfocar elementos interactivos con Tab
