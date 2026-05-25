@@ -550,7 +550,7 @@
       justify-content: center;
     }
 
-    .about-btn {
+    .about-btn, .speech-btn {
       flex: none;
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.14);
@@ -565,10 +565,15 @@
       transition: all 0.2s ease;
       font-family: inherit;
     }
-    .about-btn:hover {
+    .about-btn:hover, .speech-btn:hover {
       background: rgba(129,140,248,0.15);
       border-color: rgba(129,140,248,0.3);
       color: var(--accent);
+    }
+    .speech-btn.active {
+      background: rgba(52,211,153,0.15);
+      border-color: rgba(52,211,153,0.35);
+      color: var(--success);
     }
 
     /* ── Modal overlay ── */
@@ -908,6 +913,13 @@
 
   <footer>
     <span>Equipo 4 &nbsp;·&nbsp; 2026</span>
+    <button class="speech-btn" id="speech-btn" aria-pressed="false" title="Activar/desactivar voz">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      </svg>
+      Voz
+    </button>
     <button class="about-btn" id="about-btn" aria-haspopup="dialog">Acerca de</button>
   </footer>
 
@@ -1161,6 +1173,45 @@
     const modal       = document.getElementById('modal');
     const aboutBtn    = document.getElementById('about-btn');
     const modalClose  = document.getElementById('modal-close');
+    const speechBtn   = document.getElementById('speech-btn');
+
+    // ── Web Speech API ───────────────────────────────────────────────
+    let speechOn = false;
+    let synth = window.speechSynthesis;
+
+    function speak(text) {
+      if (!speechOn || !synth) return;
+      synth.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'es-ES';
+      u.rate = 1.0;
+      u.pitch = 1.0;
+      synth.speak(u);
+    }
+
+    speechBtn.addEventListener('click', () => {
+      speechOn = !speechOn;
+      speechBtn.classList.toggle('active', speechOn);
+      speechBtn.setAttribute('aria-pressed', speechOn);
+      if (speechOn) {
+        speak('Voz activada. Vision AI, sistema de reconocimiento de imágenes.');
+      } else {
+        synth.cancel();
+      }
+    });
+
+    // Hablar al enfocar elementos interactivos con Tab
+    document.addEventListener('focusin', e => {
+      if (!speechOn) return;
+      const el = e.target;
+      const label =
+        el.getAttribute('aria-label') ||
+        el.getAttribute('title') ||
+        el.textContent.trim().slice(0, 80);
+      if (label && (el.tagName === 'BUTTON' || el.tagName === 'INPUT' || el.tagName === 'A')) {
+        speak(label);
+      }
+    });
 
     let currentBase64 = null;
 
@@ -1220,6 +1271,7 @@
         if (info.status === 'ready') {
           statusBadge.className = 'status-badge ok';
           statusBadge.innerHTML = '<span class="dot" aria-hidden="true"></span> Modelo listo';
+          speak('Modelo listo. Puedes cargar una imagen para analizarla.');
         } else if (info.status === 'loading') {
           statusBadge.className = 'status-badge loading';
           statusBadge.innerHTML = '<span class="dot pulse" aria-hidden="true"></span> Cargando modelo...';
@@ -1228,6 +1280,7 @@
           statusBadge.className = 'status-badge';
           statusBadge.style.cssText = 'background:rgba(239,68,68,0.1);color:#fca5a5;border:1px solid rgba(239,68,68,0.25)';
           statusBadge.innerHTML = '<span class="dot" aria-hidden="true"></span> Error al cargar modelo';
+          speak('Error al cargar el modelo de inteligencia artificial.');
         }
       } catch { setTimeout(checkServer, 3000); }
     }
@@ -1260,6 +1313,7 @@
         analyzeBtn.removeAttribute('aria-disabled');
         hideError();
         results.style.display = 'none';
+        speak(`Imagen cargada: ${file.name}. Presiona el botón Analizar imagen para procesarla.`);
       };
       reader.readAsDataURL(file);
     }
@@ -1291,6 +1345,7 @@
       analyzeBtn.innerHTML = '<div class="spinner" style="display:block" aria-hidden="true"></div><span class="sr-only">Analizando imagen…</span>';
       hideError();
       results.style.display = 'none';
+      speak('Analizando imagen, por favor espera.');
       try {
         const res = await fetch('/predict', {
           method: 'POST',
@@ -1355,10 +1410,25 @@
       requestAnimationFrame(() => {
         document.querySelectorAll('.bar-fill').forEach(b => b.style.width = b.dataset.width);
       });
+
+      // Leer resultados en voz
+      if (speechOn) {
+        let texto = '';
+        if (description) texto += `Descripción: ${description}. `;
+        texto += `Clasificación: `;
+        predictions.slice(0, 3).forEach((p, i) => {
+          texto += `${i + 1}. ${p.label}, confianza ${p.confidence} por ciento. `;
+        });
+        speak(texto);
+      }
     }
 
-    function showError(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
-    function hideError()    { errorBox.style.display = 'none'; }
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.style.display = 'block';
+      speak(`Error: ${msg}`);
+    }
+    function hideError() { errorBox.style.display = 'none'; }
   </script>
 </body>
 </html>
