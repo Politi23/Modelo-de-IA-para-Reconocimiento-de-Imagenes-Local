@@ -911,6 +911,10 @@
 
   <footer>
     <span>Equipo 4 &nbsp;·&nbsp; 2026</span>
+    <button class="speech-btn" id="prev-btn" aria-label="Ir a la sección anterior">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      Anterior
+    </button>
     <button class="speech-btn" id="speech-btn" aria-pressed="false" title="Activar/desactivar voz">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -1172,6 +1176,7 @@
     const aboutBtn    = document.getElementById('about-btn');
     const modalClose  = document.getElementById('modal-close');
     const speechBtn   = document.getElementById('speech-btn');
+    const prevBtn     = document.getElementById('prev-btn');
 
     // ── Web Speech API ───────────────────────────────────────────────
     let speechOn = true;
@@ -1187,6 +1192,17 @@
       }, 50);
     }
 
+    // ── Botón Anterior ───────────────────────────────────────────────
+    prevBtn.addEventListener('click', () => {
+      const root = modal.classList.contains('open') ? modal : document;
+      const all = [...root.querySelectorAll(
+        'a[href],button:not([disabled]),input:not([tabindex="-1"]),select,textarea,[tabindex="0"]'
+      )];
+      const idx = all.indexOf(document.activeElement);
+      const target = idx > 0 ? all[idx - 1] : all[all.length - 1];
+      target.focus();
+    });
+
     speechBtn.classList.add('active');
     speechBtn.setAttribute('aria-pressed', 'true');
     speechBtn.addEventListener('click', () => {
@@ -1200,7 +1216,8 @@
     setTimeout(() => {
       speak(
         'Bienvenido a Vision AI, sistema de reconocimiento de imágenes con inteligencia artificial. ' +
-        'Usa la tecla Tab para moverte entre los elementos de la página. ' +
+        'Usa la tecla Tab para avanzar entre los elementos de la página, ' +
+        'o el botón Anterior en la parte inferior para retroceder una sección. ' +
         'Presiona Enter o Espacio para activar el elemento seleccionado. ' +
         'En el modal Acerca de, Tab navega entre secciones y Escape lo cierra. ' +
         'La voz se puede desactivar con el botón Voz en la parte inferior.'
