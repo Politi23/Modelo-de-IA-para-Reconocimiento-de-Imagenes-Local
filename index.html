@@ -1290,7 +1290,11 @@
 
     // ── Drop zone: activar con Enter/Space ──────────────────────────
     dropZone.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        speak('Se abrirá el explorador de archivos de Windows. Navega hasta tu imagen con las flechas, o escribe directamente el nombre del archivo en el campo inferior y presiona Enter para confirmar.');
+        setTimeout(() => fileInput.click(), 1800);
+      }
     });
 
     // ── Server status ───────────────────────────────────────────────
