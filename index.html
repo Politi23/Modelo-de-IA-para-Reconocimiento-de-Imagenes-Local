@@ -1196,6 +1196,17 @@
       speak(speechOn ? 'Voz activada.' : 'Voz desactivada.');
     });
 
+    // Bienvenida con instrucciones de navegación
+    setTimeout(() => {
+      speak(
+        'Bienvenido a Vision AI, sistema de reconocimiento de imágenes con inteligencia artificial. ' +
+        'Usa la tecla Tab para moverte entre los elementos de la página. ' +
+        'Presiona Enter o Espacio para activar el elemento seleccionado. ' +
+        'En el modal Acerca de, Tab navega entre secciones y Escape lo cierra. ' +
+        'La voz se puede desactivar con el botón Voz en la parte inferior.'
+      );
+    }, 500);
+
     // Hablar al enfocar cualquier elemento interactivo con Tab
     document.addEventListener('focusin', e => {
       if (!speechOn) return;
