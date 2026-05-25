@@ -974,6 +974,88 @@
         </div>
       </div>
 
+      <!-- Marco Legal -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Marco legal — EU AI Act
+        </div>
+        <div class="modal-flow">
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(251,191,36,0.15);color:var(--warn)">1</div>
+            <div class="modal-step-text"><strong>Transparencia de origen artificial — Art. 50, EU AI Act (Reglamento UE 2024/1689):</strong> Este artículo obliga a identificar el contenido generado por IA. En el sistema, cada descripción aparece etiquetada como "Descripción IA" y cada predicción incluye porcentaje de confianza con nivel (Alta / Media / Baja), dejando claro que son estimaciones automáticas, no verdades absolutas.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(251,191,36,0.15);color:var(--warn)">2</div>
+            <div class="modal-step-text"><strong>Transparencia sobre datos de entrenamiento — Art. 53, EU AI Act (Reglamento UE 2024/1689):</strong> Este artículo exige a los proveedores de modelos de IA de uso general declarar los datos usados en el entrenamiento. El modal "Acerca de" declara el origen de ambos modelos: <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">microsoft/swin-large-patch4-window12-384</code> entrenado sobre ImageNet y <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">Salesforce/blip-image-captioning-large</code>, ambos públicos en Hugging Face con rastreabilidad completa.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(251,191,36,0.15);color:var(--warn)">3</div>
+            <div class="modal-step-text"><strong>Prohibición de prácticas de IA inaceptables — Art. 5(1)(e), EU AI Act (Reglamento UE 2024/1689):</strong> Este artículo prohíbe el raspado de imágenes faciales y la creación de bases de datos biométricas. El sistema no almacena imágenes en disco, no identifica personas y las 1 000 categorías de ImageNet son objetos genéricos sin raza, género ni atributos protegidos, cumpliendo esta prohibición de forma arquitectónica.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(251,191,36,0.15);color:var(--warn)">4</div>
+            <div class="modal-step-text"><strong>Privacidad desde el diseño — Art. 25, GDPR (Reglamento UE 2016/679):</strong> Este artículo exige que la protección de datos se integre en la arquitectura del sistema, no como añadido posterior. Todo el procesamiento ocurre en <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">localhost</code> sin transmitir imágenes externamente. El único dato que sale del dispositivo es el texto de las etiquetas para traducción — nunca los píxeles.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Accesibilidad -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          Accesibilidad
+        </div>
+        <div class="modal-flow">
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(129,140,248,0.15);color:var(--accent)">A</div>
+            <div class="modal-step-text">El HTML declara <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:4px">lang="es"</code> para que los lectores de pantalla interpreten correctamente el idioma de toda la interfaz.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(129,140,248,0.15);color:var(--accent)">A</div>
+            <div class="modal-step-text">Todos los estados del sistema se comunican con <strong>texto visible</strong>: el badge muestra "Conectando…", "Modelo listo" o "Error al cargar", sin depender únicamente de colores o iconos.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(129,140,248,0.15);color:var(--accent)">A</div>
+            <div class="modal-step-text">El área de carga acepta tanto <strong>arrastrar y soltar</strong> como <strong>clic directo</strong>, ofreciendo dos modalidades de interacción. Los errores se muestran con mensaje descriptivo, sin fallar en silencio.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(129,140,248,0.15);color:var(--accent)">A</div>
+            <div class="modal-step-text">Los resultados presentan cada predicción con <strong>porcentaje numérico y etiqueta verbal</strong> (Alta / Media / Baja), dando dos formas de entender el mismo dato. El botón "Analizar" se deshabilita mientras el modelo carga, evitando confusión.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ética -->
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Ética
+        </div>
+        <div class="modal-flow">
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(52,211,153,0.15);color:var(--success)">É</div>
+            <div class="modal-step-text"><strong>Supervisión humana:</strong> El sistema no actúa solo; requiere que el usuario cargue la imagen y presione "Analizar". Toda decisión queda en manos del usuario.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(52,211,153,0.15);color:var(--success)">É</div>
+            <div class="modal-step-text"><strong>Transparencia algorítmica:</strong> Se muestra el porcentaje exacto de confianza para las 5 predicciones, permitiendo evaluar la certeza del modelo antes de tomar cualquier decisión.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(52,211,153,0.15);color:var(--success)">É</div>
+            <div class="modal-step-text"><strong>Reducción de sesgo mediante TTA:</strong> El backend aplica 5 variaciones por imagen (volteos y rotaciones) y promedia los resultados, reduciendo predicciones sesgadas por orientación o encuadre.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(52,211,153,0.15);color:var(--success)">É</div>
+            <div class="modal-step-text"><strong>Privacidad por diseño:</strong> Las imágenes nunca se guardan en disco ni se transmiten a terceros, protegiendo la información visual sensible desde la arquitectura misma.</div>
+          </div>
+          <div class="modal-step">
+            <div class="modal-step-num" style="background:rgba(52,211,153,0.15);color:var(--success)">É</div>
+            <div class="modal-step-text"><strong>Sin categorización de rasgos sensibles:</strong> Las 1 000 categorías de ImageNet no incluyen raza, género ni ningún atributo protegido, alineándose con la prohibición del AI Act.</div>
+          </div>
+        </div>
+      </div>
+
       <!-- Equipo -->
       <div class="modal-section">
         <div class="modal-section-title">
