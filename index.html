@@ -1175,22 +1175,18 @@
 
     // ── Web Speech API ───────────────────────────────────────────────
     let speechOn = true;
-    let synth = window.speechSynthesis;
+    const synth = window.speechSynthesis;
 
     function speak(text) {
       if (!speechOn || !synth) return;
       synth.cancel();
       const u = new SpeechSynthesisUtterance(text);
       u.lang = 'es-ES';
-      u.rate = 1.0;
-      u.pitch = 1.0;
       synth.speak(u);
     }
 
-    // Voz activa por defecto
     speechBtn.classList.add('active');
     speechBtn.setAttribute('aria-pressed', 'true');
-
     speechBtn.addEventListener('click', () => {
       speechOn = !speechOn;
       speechBtn.classList.toggle('active', speechOn);
@@ -1283,7 +1279,6 @@
           statusBadge.className = 'status-badge';
           statusBadge.style.cssText = 'background:rgba(239,68,68,0.1);color:#fca5a5;border:1px solid rgba(239,68,68,0.25)';
           statusBadge.innerHTML = '<span class="dot" aria-hidden="true"></span> Error al cargar modelo';
-          speak('Error al cargar el modelo de inteligencia artificial.');
         }
       } catch { setTimeout(checkServer, 3000); }
     }
@@ -1346,9 +1341,9 @@
       analyzeBtn.disabled = true;
       analyzeBtn.setAttribute('aria-busy', 'true');
       analyzeBtn.innerHTML = '<div class="spinner" style="display:block" aria-hidden="true"></div><span class="sr-only">Analizando imagen…</span>';
+      speak('Analizando imagen, por favor espera.');
       hideError();
       results.style.display = 'none';
-      speak('Analizando imagen, por favor espera.');
       try {
         const res = await fetch('/predict', {
           method: 'POST',
