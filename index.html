@@ -1180,9 +1180,11 @@
     function speak(text) {
       if (!speechOn || !synth) return;
       synth.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'es-ES';
-      synth.speak(u);
+      setTimeout(() => {
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'es-ES';
+        synth.speak(u);
+      }, 50);
     }
 
     speechBtn.classList.add('active');
