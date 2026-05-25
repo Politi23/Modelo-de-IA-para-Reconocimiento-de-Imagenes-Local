@@ -1200,17 +1200,22 @@
       speak(speechOn ? 'Voz activada.' : 'Voz desactivada.');
     });
 
-    // Hablar al enfocar elementos interactivos con Tab
+    // Hablar al enfocar cualquier elemento interactivo con Tab
     document.addEventListener('focusin', e => {
       if (!speechOn) return;
       const el = e.target;
+      const isInteractive =
+        el.tagName === 'BUTTON' ||
+        el.tagName === 'INPUT' ||
+        el.tagName === 'A' ||
+        el.getAttribute('role') === 'button' ||
+        el.getAttribute('tabindex') === '0';
+      if (!isInteractive) return;
       const label =
         el.getAttribute('aria-label') ||
         el.getAttribute('title') ||
-        el.textContent.trim().slice(0, 80);
-      if (label && (el.tagName === 'BUTTON' || el.tagName === 'INPUT' || el.tagName === 'A')) {
-        speak(label);
-      }
+        el.textContent.trim().replace(/\s+/g, ' ').slice(0, 100);
+      if (label) speak(label);
     });
 
     let currentBase64 = null;
