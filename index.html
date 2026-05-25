@@ -931,7 +931,7 @@
 
       <!-- Modelos -->
       <div class="modal-section">
-        <div class="modal-section-title">
+        <div class="modal-section-title" tabindex="0">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
           Modelos de IA
         </div>
@@ -964,7 +964,7 @@
 
       <!-- Stack -->
       <div class="modal-section">
-        <div class="modal-section-title">
+        <div class="modal-section-title" tabindex="0">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
           Stack tecnológico
         </div>
@@ -1015,7 +1015,7 @@
 
       <!-- Flujo -->
       <div class="modal-section">
-        <div class="modal-section-title">
+        <div class="modal-section-title" tabindex="0">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           Flujo de análisis
         </div>
@@ -1041,7 +1041,7 @@
 
       <!-- Metodología -->
       <div class="modal-section">
-        <div class="modal-section-title">
+        <div class="modal-section-title" tabindex="0">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           Metodología de desarrollo
         </div>
@@ -1053,7 +1053,7 @@
 
       <!-- Marco Legal -->
       <div class="modal-section">
-        <div class="modal-section-title">
+        <div class="modal-section-title" tabindex="0">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           Marco legal — EU AI Act
         </div>
@@ -1079,7 +1079,7 @@
 
       <!-- Accesibilidad -->
       <div class="modal-section">
-        <div class="modal-section-title">
+        <div class="modal-section-title" tabindex="0">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
           Accesibilidad
         </div>
@@ -1105,7 +1105,7 @@
 
       <!-- Ética -->
       <div class="modal-section">
-        <div class="modal-section-title">
+        <div class="modal-section-title" tabindex="0">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
           Ética
         </div>
@@ -1135,7 +1135,7 @@
 
       <!-- Equipo -->
       <div class="modal-section">
-        <div class="modal-section-title">
+        <div class="modal-section-title" tabindex="0">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Equipo 4
         </div>
@@ -1223,6 +1223,12 @@
       const first = modal.querySelector(FOCUSABLE);
       if (first) first.focus();
       document.addEventListener('keydown', trapFocus);
+      // Leer el contenido del modal al abrirlo
+      setTimeout(() => {
+        speak('Acerca de Vision AI. Sistema local de reconocimiento de imágenes con inteligencia artificial. ' +
+          'Usa los modelos Swin Transformer para clasificación con 87% de precisión, y BLIP para describir la imagen en español. ' +
+          'Presiona Tab para navegar por las secciones del modal, o Escape para cerrar.');
+      }, 300);
     }
 
     function closeModal() {
