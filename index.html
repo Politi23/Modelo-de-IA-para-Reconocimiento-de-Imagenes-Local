@@ -628,11 +628,11 @@
       flex-shrink: 0;
     }
 
-    /* ── Modos de daltonismo — filtro global sobre todo el body ── */
-    body.dalton-deuteranopia { filter: url('#cvd-deuteranopia'); }
-    body.dalton-protanopia   { filter: url('#cvd-protanopia'); }
-    body.dalton-tritanopia   { filter: url('#cvd-tritanopia'); }
-    body.dalton-acromatico   { filter: grayscale(100%) contrast(1.35); }
+    /* ── Modos de daltonismo — filtro global sobre html ── */
+    html.dalton-deuteranopia { filter: url('#cvd-deuteranopia'); }
+    html.dalton-protanopia   { filter: url('#cvd-protanopia'); }
+    html.dalton-tritanopia   { filter: url('#cvd-tritanopia'); }
+    html.dalton-acromatico   { filter: grayscale(100%) contrast(1.35); }
 
     /* ── Modal overlay ── */
     .modal-overlay {
@@ -892,33 +892,6 @@
   </style>
 </head>
 <body>
-
-  <!-- SVG filters para simulación de daltonismo (Brettel et al.) -->
-  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden;pointer-events:none">
-    <defs>
-      <filter id="cvd-deuteranopia" color-interpolation-filters="linearRGB">
-        <feColorMatrix type="matrix" values="
-          0.367  0.861 -0.228  0  0
-          0.280  0.673  0.047  0  0
-         -0.012  0.043  0.969  0  0
-          0      0      0      1  0"/>
-      </filter>
-      <filter id="cvd-protanopia" color-interpolation-filters="linearRGB">
-        <feColorMatrix type="matrix" values="
-          0.152  1.053 -0.205  0  0
-          0.115  0.786  0.099  0  0
-         -0.004 -0.048  1.052  0  0
-          0      0      0      1  0"/>
-      </filter>
-      <filter id="cvd-tritanopia" color-interpolation-filters="linearRGB">
-        <feColorMatrix type="matrix" values="
-          1.256 -0.077 -0.179  0  0
-         -0.078  0.931  0.148  0  0
-          0.005  0.691  0.304  0  0
-          0      0      0      1  0"/>
-      </filter>
-    </defs>
-  </svg>
 
   <!-- Animated background -->
   <div class="bg-canvas" aria-hidden="true">
@@ -1300,8 +1273,8 @@
 
     const DALTON_CLASSES = ['dalton-deuteranopia','dalton-protanopia','dalton-tritanopia','dalton-acromatico'];
     function setVision(btn, mode, msg) {
-      DALTON_CLASSES.forEach(c => document.body.classList.remove(c));
-      if (mode) document.body.classList.add(mode);
+      DALTON_CLASSES.forEach(c => document.documentElement.classList.remove(c));
+      if (mode) document.documentElement.classList.add(mode);
       visionPanel.querySelectorAll('.vision-opt').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
       localStorage.setItem('visionMode', mode);
@@ -1314,7 +1287,7 @@
     const saved = localStorage.getItem('visionMode');
     if (saved) {
       const btn = visionPanel.querySelector(`[data-mode="${saved}"]`);
-      if (btn) setVision(btn, saved, '');
+      if (btn) { setVision(btn, saved, ''); }
     }
 
     // ── Web Speech API ───────────────────────────────────────────────
@@ -1616,5 +1589,33 @@
     }
     function hideError() { errorBox.style.display = 'none'; }
   </script>
+
+  <!-- SVG filters para daltonismo (fuera del flujo, al final) -->
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+       style="position:absolute;width:0;height:0;overflow:hidden;pointer-events:none">
+    <defs>
+      <filter id="cvd-deuteranopia" color-interpolation-filters="linearRGB">
+        <feColorMatrix type="matrix" values="
+          0.367  0.861 -0.228  0  0
+          0.280  0.673  0.047  0  0
+         -0.012  0.043  0.969  0  0
+          0      0      0      1  0"/>
+      </filter>
+      <filter id="cvd-protanopia" color-interpolation-filters="linearRGB">
+        <feColorMatrix type="matrix" values="
+          0.152  1.053 -0.205  0  0
+          0.115  0.786  0.099  0  0
+         -0.004 -0.048  1.052  0  0
+          0      0      0      1  0"/>
+      </filter>
+      <filter id="cvd-tritanopia" color-interpolation-filters="linearRGB">
+        <feColorMatrix type="matrix" values="
+          1.256 -0.077 -0.179  0  0
+         -0.078  0.931  0.148  0  0
+          0.005  0.691  0.304  0  0
+          0      0      0      1  0"/>
+      </filter>
+    </defs>
+  </svg>
 </body>
 </html>
