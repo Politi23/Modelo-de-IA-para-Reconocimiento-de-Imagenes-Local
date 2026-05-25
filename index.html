@@ -765,12 +765,75 @@
 
     .modal-member-name { font-size: 0.88rem; font-weight: 600; }
     .modal-member-id   { font-size: 0.78rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+    /* ── Skip link (ciegos / teclado) ── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 8px;
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      z-index: 9999;
+      text-decoration: none;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* ── Visually hidden (texto solo para lectores de pantalla) ── */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ── Focus visible (teclado) ── */
+    :focus-visible {
+      outline: 2px solid #818cf8;
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+
+    /* ── Patrones en barras para daltónicos (forma + color) ── */
+    .bar-fill.high {
+      background: linear-gradient(90deg, #059669, #34d399);
+    }
+    .bar-fill.medium {
+      background: repeating-linear-gradient(
+        90deg, #4f46e5 0px, #4f46e5 5px, #a78bfa 5px, #a78bfa 9px
+      );
+    }
+    .bar-fill.low {
+      background: repeating-linear-gradient(
+        45deg, #92400e 0px, #92400e 3px, #fbbf24 3px, #fbbf24 6px
+      );
+    }
+
+    /* ── Iconos de nivel en las barras (daltónicos) ── */
+    .bar-bg { height: 6px; }
+
+    /* ── Reduced motion ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 <body>
 
+  <a href="#main-content" class="skip-link">Ir al contenido principal</a>
+
   <!-- Animated background -->
-  <div class="bg-canvas">
+  <div class="bg-canvas" aria-hidden="true">
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
@@ -779,8 +842,8 @@
 
   <header>
     <div class="logo">
-      <div class="logo-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <div class="logo-icon" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M2 12h2M20 12h2M12 2v2M12 20v2"/>
           <circle cx="12" cy="12" r="4"/>
           <path d="M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M17.66 6.34l-1.41 1.41M6.34 17.66l-1.41 1.41"/>
@@ -788,17 +851,20 @@
       </div>
       <h1>Vision AI</h1>
     </div>
-    <div id="server-status" class="status-badge loading">
-      <span class="dot pulse"></span> Conectando...
+    <div id="server-status" class="status-badge loading" role="status" aria-live="polite" aria-atomic="true">
+      <span class="dot pulse" aria-hidden="true"></span> Conectando...
     </div>
     <div id="hw-info"></div>
   </header>
 
-  <div class="card glass">
-    <div id="drop-zone">
-      <input type="file" id="file-input" accept="image/*" />
-      <span class="drop-icon">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+  <main id="main-content" class="card glass">
+    <div id="drop-zone"
+         role="button"
+         tabindex="0"
+         aria-label="Zona de carga de imagen. Arrastra una imagen o presiona Enter para abrir el selector de archivos">
+      <input type="file" id="file-input" accept="image/*" aria-label="Seleccionar imagen desde el dispositivo" />
+      <span class="drop-icon" aria-hidden="true">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="3" y="3" width="18" height="18" rx="4"/>
           <circle cx="8.5" cy="8.5" r="1.5"/>
           <path d="M21 15l-5-5L5 21"/>
@@ -806,27 +872,28 @@
       </span>
       <p class="drop-text">Arrastra una imagen aquí</p>
       <p class="drop-hint">o haz clic para seleccionar &nbsp;·&nbsp; JPG &nbsp;PNG &nbsp;WEBP</p>
-      <img id="preview-img" alt="Preview" />
+      <img id="preview-img" alt="" />
     </div>
 
     <div class="btn-row">
-      <button id="analyze-btn" disabled>Analizar imagen</button>
-      <button id="clear-btn" title="Limpiar">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <button id="analyze-btn" disabled aria-disabled="true">Analizar imagen</button>
+      <button id="clear-btn" aria-label="Limpiar imagen seleccionada">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
           <path d="M18 6L6 18M6 6l12 12"/>
         </svg>
+        <span class="sr-only">Limpiar</span>
       </button>
     </div>
 
-    <div class="error-box" id="error-box"></div>
+    <div class="error-box" id="error-box" role="alert" aria-live="assertive"></div>
 
-    <div id="results">
+    <div id="results" aria-live="polite" aria-atomic="false">
       <div class="divider"></div>
 
       <div class="desc-panel" id="desc-panel" style="display:none">
         <div class="desc-label">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          Descripción
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Descripción generada por IA
         </div>
         <p class="desc-text" id="desc-text"></p>
       </div>
@@ -835,21 +902,21 @@
         <p class="results-title">Clasificación</p>
         <span class="results-count" id="results-count"></span>
       </div>
-      <div id="predictions-list"></div>
+      <div id="predictions-list" role="list" aria-label="Resultados de clasificación"></div>
     </div>
-  </div>
+  </main>
 
   <footer>
     <span>Equipo 4 &nbsp;·&nbsp; 2026</span>
-    <button class="about-btn" onclick="document.getElementById('modal').classList.add('open')">Acerca de</button>
+    <button class="about-btn" id="about-btn" aria-haspopup="dialog">Acerca de</button>
   </footer>
 
   <!-- Modal -->
-  <div class="modal-overlay" id="modal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal">
-      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">&#x2715;</button>
+      <button class="modal-close" id="modal-close" aria-label="Cerrar modal">&#x2715;</button>
 
-      <h2>Vision AI</h2>
+      <h2 id="modal-title">Vision AI</h2>
       <p class="modal-lead">Sistema local de reconocimiento e interpretación de imágenes mediante inteligencia artificial. Analiza cualquier imagen y devuelve una descripción en lenguaje natural junto con las categorías más probables, todo procesado en el dispositivo sin enviar datos a servicios externos.</p>
 
       <!-- Modelos -->
@@ -1082,18 +1149,61 @@
   </div>
 
   <script>
-    const dropZone   = document.getElementById('drop-zone');
-    const fileInput  = document.getElementById('file-input');
-    const preview    = document.getElementById('preview-img');
-    const analyzeBtn = document.getElementById('analyze-btn');
-    const clearBtn   = document.getElementById('clear-btn');
-    const results    = document.getElementById('results');
-    const predList   = document.getElementById('predictions-list');
-    const errorBox   = document.getElementById('error-box');
+    const dropZone    = document.getElementById('drop-zone');
+    const fileInput   = document.getElementById('file-input');
+    const preview     = document.getElementById('preview-img');
+    const analyzeBtn  = document.getElementById('analyze-btn');
+    const clearBtn    = document.getElementById('clear-btn');
+    const results     = document.getElementById('results');
+    const predList    = document.getElementById('predictions-list');
+    const errorBox    = document.getElementById('error-box');
     const statusBadge = document.getElementById('server-status');
+    const modal       = document.getElementById('modal');
+    const aboutBtn    = document.getElementById('about-btn');
+    const modalClose  = document.getElementById('modal-close');
 
     let currentBase64 = null;
 
+    // ── Modal accesible ──────────────────────────────────────────────
+    const FOCUSABLE = 'a[href],button:not([disabled]),input,select,textarea,[tabindex]:not([tabindex="-1"])';
+
+    function openModal() {
+      modal.classList.add('open');
+      modal.removeAttribute('aria-hidden');
+      const first = modal.querySelector(FOCUSABLE);
+      if (first) first.focus();
+      document.addEventListener('keydown', trapFocus);
+    }
+
+    function closeModal() {
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('keydown', trapFocus);
+      aboutBtn.focus();
+    }
+
+    function trapFocus(e) {
+      if (e.key === 'Escape') { closeModal(); return; }
+      if (e.key !== 'Tab') return;
+      const focusable = [...modal.querySelectorAll(FOCUSABLE)];
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey ? document.activeElement === first : document.activeElement === last) {
+        e.preventDefault();
+        (e.shiftKey ? last : first).focus();
+      }
+    }
+
+    aboutBtn.addEventListener('click', openModal);
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    modal.setAttribute('aria-hidden', 'true');
+
+    // ── Drop zone: activar con Enter/Space ──────────────────────────
+    dropZone.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+    });
+
+    // ── Server status ───────────────────────────────────────────────
     async function checkServer() {
       try {
         const res = await fetch('/info');
@@ -1109,20 +1219,21 @@
 
         if (info.status === 'ready') {
           statusBadge.className = 'status-badge ok';
-          statusBadge.innerHTML = '<span class="dot"></span> Modelo listo';
+          statusBadge.innerHTML = '<span class="dot" aria-hidden="true"></span> Modelo listo';
         } else if (info.status === 'loading') {
           statusBadge.className = 'status-badge loading';
-          statusBadge.innerHTML = '<span class="dot pulse"></span> Cargando modelo...';
+          statusBadge.innerHTML = '<span class="dot pulse" aria-hidden="true"></span> Cargando modelo...';
           setTimeout(checkServer, 3000);
         } else {
           statusBadge.className = 'status-badge';
           statusBadge.style.cssText = 'background:rgba(239,68,68,0.1);color:#fca5a5;border:1px solid rgba(239,68,68,0.25)';
-          statusBadge.innerHTML = '<span class="dot"></span> Error al cargar modelo';
+          statusBadge.innerHTML = '<span class="dot" aria-hidden="true"></span> Error al cargar modelo';
         }
       } catch { setTimeout(checkServer, 3000); }
     }
     checkServer();
 
+    // ── Drag & drop ─────────────────────────────────────────────────
     dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
     dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
     dropZone.addEventListener('drop', e => {
@@ -1138,12 +1249,15 @@
       reader.onload = e => {
         currentBase64 = e.target.result;
         preview.src = currentBase64;
+        preview.alt = `Imagen cargada: ${file.name}`;
         preview.classList.add('visible');
         dropZone.classList.add('has-image');
+        dropZone.setAttribute('aria-label', `Imagen seleccionada: ${file.name}. Presiona Enter para cambiarla.`);
         dropZone.querySelector('.drop-icon').style.display = 'none';
         dropZone.querySelector('.drop-text').style.display = 'none';
         dropZone.querySelector('.drop-hint').style.display = 'none';
         analyzeBtn.disabled = false;
+        analyzeBtn.removeAttribute('aria-disabled');
         hideError();
         results.style.display = 'none';
       };
@@ -1154,13 +1268,16 @@
     function resetAll() {
       currentBase64 = null;
       preview.src = '';
+      preview.alt = '';
       preview.classList.remove('visible');
       dropZone.classList.remove('has-image');
+      dropZone.setAttribute('aria-label', 'Zona de carga de imagen. Arrastra una imagen o presiona Enter para abrir el selector de archivos');
       dropZone.querySelector('.drop-icon').style.display = '';
       dropZone.querySelector('.drop-text').style.display = '';
       dropZone.querySelector('.drop-hint').style.display = '';
       fileInput.value = '';
       analyzeBtn.disabled = true;
+      analyzeBtn.setAttribute('aria-disabled', 'true');
       results.style.display = 'none';
       predList.innerHTML = '';
       hideError();
@@ -1170,7 +1287,8 @@
     async function analyze() {
       if (!currentBase64) return;
       analyzeBtn.disabled = true;
-      analyzeBtn.innerHTML = '<div class="spinner" style="display:block"></div>';
+      analyzeBtn.setAttribute('aria-busy', 'true');
+      analyzeBtn.innerHTML = '<div class="spinner" style="display:block" aria-hidden="true"></div><span class="sr-only">Analizando imagen…</span>';
       hideError();
       results.style.display = 'none';
       try {
@@ -1186,6 +1304,7 @@
         showError('No se pudo conectar con el servidor.');
       } finally {
         analyzeBtn.disabled = false;
+        analyzeBtn.removeAttribute('aria-busy');
         analyzeBtn.textContent = 'Analizar imagen';
       }
     }
@@ -1194,9 +1313,9 @@
     const badge = p => p >= 60 ? 'Alta' : p >= 25 ? 'Media' : 'Baja';
 
     const rankIcons = [
-      `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
-      `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="9"/></svg>`,
-      `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`,
+      `<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`,
+      `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>`,
+      `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>`,
     ];
 
     function renderResults(predictions, description) {
@@ -1213,15 +1332,20 @@
       }
       predictions.forEach((p, i) => {
         const lv = level(p.confidence);
+        const rankLabel = i === 0 ? '1.ª opción' : `${i+1}.ª opción`;
         const item = document.createElement('div');
         item.className = `prediction-item${i === 0 ? ' rank-1' : ''}`;
+        item.setAttribute('role', 'listitem');
+        item.setAttribute('aria-label', `${rankLabel}: ${p.label}, confianza ${p.confidence}%, nivel ${badge(p.confidence)}`);
         item.innerHTML = `
-          <div class="pred-rank ${i < 3 ? 'r'+(i+1) : ''}">${i < 3 ? rankIcons[i] : i+1}</div>
+          <div class="pred-rank ${i < 3 ? 'r'+(i+1) : ''}" aria-hidden="true">${i < 3 ? rankIcons[i] : i+1}</div>
           <div class="pred-body">
             <div class="pred-label">${p.label}</div>
-            <div class="bar-bg"><div class="bar-fill ${lv}" style="width:0%" data-width="${p.confidence}%"></div></div>
+            <div class="bar-bg" role="progressbar" aria-valuenow="${p.confidence}" aria-valuemin="0" aria-valuemax="100" aria-label="${p.confidence}% de confianza">
+              <div class="bar-fill ${lv}" style="width:0%" data-width="${p.confidence}%"></div>
+            </div>
           </div>
-          <div class="pred-right">
+          <div class="pred-right" aria-hidden="true">
             <span class="pred-score ${lv}">${p.confidence}%</span>
             <span class="pred-badge ${lv}">${badge(p.confidence)}</span>
           </div>`;
