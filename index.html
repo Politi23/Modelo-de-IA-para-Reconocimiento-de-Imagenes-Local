@@ -576,6 +576,102 @@
       color: var(--success);
     }
 
+    /* ── Panel de daltonismo ── */
+    .vision-panel {
+      position: fixed;
+      bottom: 72px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(14,14,28,0.95);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 200;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      min-width: 230px;
+    }
+    .vision-panel.open { display: flex; }
+    .vision-panel-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .vision-opt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: all 0.2s;
+      text-align: left;
+      width: 100%;
+    }
+    .vision-opt:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.18); }
+    .vision-opt.selected { border-color: var(--accent); color: var(--accent); background: rgba(129,140,248,0.1); }
+    .vision-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── Modos de daltonismo (sobreescriben variables) ── */
+
+    /* Deuteranopia: no distingue rojo/verde → verde→azul */
+    body.dalton-deuteranopia {
+      --success: #3b82f6;
+      --warn: #f97316;
+    }
+    body.dalton-deuteranopia .bar-fill.high {
+      background: linear-gradient(90deg, #1d4ed8, #3b82f6);
+    }
+    body.dalton-deuteranopia .bar-fill.low {
+      background: repeating-linear-gradient(45deg,#c2410c 0px,#c2410c 3px,#f97316 3px,#f97316 6px);
+    }
+
+    /* Protanopia: no distingue rojo → verde→cian */
+    body.dalton-protanopia {
+      --success: #06b6d4;
+      --warn: #f59e0b;
+    }
+    body.dalton-protanopia .bar-fill.high {
+      background: linear-gradient(90deg, #0e7490, #06b6d4);
+    }
+    body.dalton-protanopia .bar-fill.low {
+      background: repeating-linear-gradient(45deg,#b45309 0px,#b45309 3px,#f59e0b 3px,#f59e0b 6px);
+    }
+
+    /* Tritanopia: no distingue azul/amarillo → púrpura→rojo, amarillo→rosa */
+    body.dalton-tritanopia {
+      --accent: #ef4444;
+      --accent2: #f87171;
+      --warn: #e879f9;
+    }
+    body.dalton-tritanopia .bar-fill.medium {
+      background: repeating-linear-gradient(90deg,#b91c1c 0px,#b91c1c 5px,#ef4444 5px,#ef4444 9px);
+    }
+    body.dalton-tritanopia .bar-fill.low {
+      background: repeating-linear-gradient(45deg,#a21caf 0px,#a21caf 3px,#e879f9 3px,#e879f9 6px);
+    }
+
+    /* Acromático: escala de grises + alto contraste */
+    body.dalton-acromatico {
+      filter: grayscale(100%) contrast(1.3);
+    }
+
     /* ── Modal overlay ── */
     .modal-overlay {
       position: fixed;
@@ -909,8 +1005,32 @@
     </div>
   </main>
 
+  <!-- Panel daltonismo -->
+  <div class="vision-panel" id="vision-panel" role="dialog" aria-label="Opciones de visión para daltonismo">
+    <div class="vision-panel-title">Modo de visión</div>
+    <button class="vision-opt selected" data-mode="" onclick="setVision(this,'','Normal — colores estándar')">
+      <span class="vision-dot" style="background:linear-gradient(135deg,#34d399,#818cf8,#fbbf24)"></span> Normal
+    </button>
+    <button class="vision-opt" data-mode="dalton-deuteranopia" onclick="setVision(this,'dalton-deuteranopia','Deuteranopia activada. Dificultad para distinguir rojo y verde. Los verdes se muestran en azul.')">
+      <span class="vision-dot" style="background:linear-gradient(135deg,#3b82f6,#818cf8,#f97316)"></span> Deuteranopia
+    </button>
+    <button class="vision-opt" data-mode="dalton-protanopia" onclick="setVision(this,'dalton-protanopia','Protanopia activada. Sin percepción del rojo. Los verdes se muestran en cian.')">
+      <span class="vision-dot" style="background:linear-gradient(135deg,#06b6d4,#818cf8,#f59e0b)"></span> Protanopia
+    </button>
+    <button class="vision-opt" data-mode="dalton-tritanopia" onclick="setVision(this,'dalton-tritanopia','Tritanopia activada. Dificultad para distinguir azul y amarillo. Los azules se muestran en rojo.')">
+      <span class="vision-dot" style="background:linear-gradient(135deg,#34d399,#ef4444,#e879f9)"></span> Tritanopia
+    </button>
+    <button class="vision-opt" data-mode="dalton-acromatico" onclick="setVision(this,'dalton-acromatico','Modo acromático activado. Escala de grises con alto contraste.')">
+      <span class="vision-dot" style="background:linear-gradient(135deg,#9ca3af,#6b7280,#d1d5db)"></span> Acromático
+    </button>
+  </div>
+
   <footer>
     <span>Equipo 4 &nbsp;·&nbsp; 2026</span>
+    <button class="speech-btn" id="vision-btn" aria-haspopup="true" aria-expanded="false" aria-label="Opciones de visión para daltonismo">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/></svg>
+      Visión
+    </button>
     <button class="speech-btn" id="speech-btn" aria-pressed="false" title="Activar/desactivar voz">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -1172,6 +1292,41 @@
     const aboutBtn    = document.getElementById('about-btn');
     const modalClose  = document.getElementById('modal-close');
     const speechBtn   = document.getElementById('speech-btn');
+    const visionBtn   = document.getElementById('vision-btn');
+    const visionPanel = document.getElementById('vision-panel');
+
+    // ── Panel de daltonismo ──────────────────────────────────────────
+    visionBtn.addEventListener('click', () => {
+      const open = visionPanel.classList.toggle('open');
+      visionBtn.setAttribute('aria-expanded', open);
+      if (open) speak('Panel de visión abierto. Elige un modo: Normal, Deuteranopia, Protanopia, Tritanopia o Acromático.');
+    });
+
+    document.addEventListener('click', e => {
+      if (!visionPanel.contains(e.target) && e.target !== visionBtn) {
+        visionPanel.classList.remove('open');
+        visionBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    const DALTON_CLASSES = ['dalton-deuteranopia','dalton-protanopia','dalton-tritanopia','dalton-acromatico'];
+    function setVision(btn, mode, msg) {
+      DALTON_CLASSES.forEach(c => document.body.classList.remove(c));
+      if (mode) document.body.classList.add(mode);
+      visionPanel.querySelectorAll('.vision-opt').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      localStorage.setItem('visionMode', mode);
+      visionPanel.classList.remove('open');
+      visionBtn.setAttribute('aria-expanded', 'false');
+      speak(msg);
+    }
+
+    // Restaurar modo guardado
+    const saved = localStorage.getItem('visionMode');
+    if (saved) {
+      const btn = visionPanel.querySelector(`[data-mode="${saved}"]`);
+      if (btn) setVision(btn, saved, '');
+    }
 
     // ── Web Speech API ───────────────────────────────────────────────
     let speechOn = true;
