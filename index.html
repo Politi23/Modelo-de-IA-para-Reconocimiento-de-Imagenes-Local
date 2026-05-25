@@ -1252,20 +1252,21 @@
     function openModal() {
       modal.classList.add('open');
       modal.removeAttribute('aria-hidden');
+      modal.removeAttribute('inert');
       const first = modal.querySelector(FOCUSABLE);
       if (first) first.focus();
       document.addEventListener('keydown', trapFocus);
-      // Leer el contenido del modal al abrirlo
       setTimeout(() => {
         speak('Acerca de Vision AI. Sistema local de reconocimiento de imágenes con inteligencia artificial. ' +
           'Usa los modelos Swin Transformer para clasificación con 87% de precisión, y BLIP para describir la imagen en español. ' +
-          'Presiona Tab para navegar por las secciones del modal, o Escape para cerrar.');
+          'Presiona flecha derecha para navegar por las secciones del modal, o Escape para cerrar.');
       }, 300);
     }
 
     function closeModal() {
       modal.classList.remove('open');
       modal.setAttribute('aria-hidden', 'true');
+      modal.setAttribute('inert', '');
       document.removeEventListener('keydown', trapFocus);
       aboutBtn.focus();
     }
@@ -1285,6 +1286,7 @@
     modalClose.addEventListener('click', closeModal);
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     modal.setAttribute('aria-hidden', 'true');
+    modal.setAttribute('inert', '');
 
     // ── Drop zone: activar con Enter/Space ──────────────────────────
     dropZone.addEventListener('keydown', e => {
